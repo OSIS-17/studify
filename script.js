@@ -43,7 +43,6 @@ function makeNotes() {
 /* -------- FLASHCARDS -------- */
 function makeFlashcards() {
   let text = getText();
-
   if (!text) {
     document.getElementById("output").innerText =
       "Please paste text first.";
