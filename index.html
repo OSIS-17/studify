@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Studify</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Studify</h1>
+  <p>Upload a file or paste text to study smarter</p>
+
+  <textarea id="inputText" placeholder="Paste teacher's text here..."></textarea>
+
+  <br><br>
+
+  <input type="file" id="fileInput">
+
+  <br><br>
+
+  <button onclick="makeSummary()">Summarize</button>
+  <button onclick="makeNotes()">Make Notes</button>
+  <button onclick="makeFlashcards()">Flashcards</button>
+
+  <h2>Result</h2>
+  <div id="output"></div>
+
+  <h2>Study Timer</h2>
+  <input type="number" id="studyTime" placeholder="Study minutes">
+  <input type="number" id="breakTime" placeholder="Break minutes">
+  <button onclick="startTimer()">Start Timer</button>
+
+  <h3 id="timerDisplay">00:00</h3>
+  <p id="timerMessage"></p>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
