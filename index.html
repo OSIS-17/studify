@@ -7,6 +7,8 @@
 </head>
 <body>
 
+  <button id="themeToggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+
   <h1>Studify</h1>
   <p>Study smarter with summaries, notes, and flashcards</p>
 
@@ -15,21 +17,16 @@
   </p>
 
   <textarea id="inputText" placeholder="Paste your teacher's text here..."></textarea>
-  <br><br>
 
-  <button onclick="makeSummary()">Summarize</button>
-  <button onclick="makeNotes()">Make Notes</button>
-  <button onclick="makeFlashcards()">Flashcards</button>
+  <div class="buttons">
+    <button onclick="makeSummary()">Summarize</button>
+    <button onclick="makeNotes()">Make Notes</button>
+    <button onclick="makeFlashcards()">Flashcards</button>
+  </div>
 
-  <h2>Result</h2>
+  <div id="streak">🔥 Study Streak: 0 days</div>
+
   <div id="output"></div>
-
-  <h2>Study Timer</h2>
-  <input type="number" id="studyTime" placeholder="Study minutes">
-  <input type="number" id="breakTime" placeholder="Break minutes">
-  <button onclick="startTimer()">Start Timer</button>
-
-  <h3 id="timerDisplay">00:00</h3>
 
   <script src="script.js"></script>
 </body>
