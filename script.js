@@ -1,95 +1,77 @@
-function getText() {
-  return document.getElementById("inputText").value.trim();
+// ---------- STUDY STREAK ----------
+let streak = localStorage.getItem("studyStreak") || 0;
+document.getElementById("streak").innerText = `🔥 Study Streak: ${streak} days`;
+
+function increaseStreak() {
+  streak++;
+  localStorage.setItem("studyStreak", streak);
+  document.getElementById("streak").innerText = `🔥 Study Streak: ${streak} days`;
 }
 
-/* ---------- SUMMARY ---------- */
+// ---------- SUMMARY ----------
 function makeSummary() {
-  let text = getText();
+  const text = document.getElementById("inputText").value.trim();
+  if (!text) return alert("Please paste text first!");
 
-  if (!text) {
-    document.getElementById("output").innerText =
-      "Please paste some text first.";
-    return;
-  }
+  increaseStreak();
 
-  let sentences = text.split(/[\.\!\?]/).filter(s => s.length > 30);
-  let summary = sentences.slice(0, 2).join(". ") + ".";
-
+  const sentences = text.split(".").slice(0, 3).join(".");
   document.getElementById("output").innerText =
-    "Summary:\n" + summary;
+    "📌 Summary:\n" + sentences + ".";
 }
 
-/* ---------- NOTES ---------- */
+// ---------- NOTES ----------
 function makeNotes() {
-  let text = getText();
+  const text = document.getElementById("inputText").value.trim();
+  if (!text) return alert("Please paste text first!");
 
-  if (!text) {
-    document.getElementById("output").innerText =
-      "Please paste some text first.";
-    return;
-  }
+  increaseStreak();
 
-  let sentences = text.split(/[\.\!\?]/).filter(s => s.length > 20);
+  const sentences = text.split(".");
+  let notes = "📝 Notes:\n";
 
-  let notes = sentences.slice(0, 5)
-    .map(s => "• " + s.trim())
-    .join("\n");
+  sentences.forEach(s => {
+    if (s.trim().length > 20) {
+      notes += "• " + s.trim() + "\n";
+    }
+  });
 
-  document.getElementById("output").innerText =
-    "Notes:\n" + notes;
+  document.getElementById("output").innerText = notes;
 }
 
-/* ---------- FLASHCARDS ---------- */
+// ---------- SMART FLASHCARDS ----------
 function makeFlashcards() {
-  let text = getText();
+  const text = document.getElementById("inputText").value.trim();
+  if (!text) return alert("Please paste text first!");
 
-  if (!text) {
-    document.getElementById("output").innerText =
-      "Please paste some text first.";
-    return;
-  }
+  increaseStreak();
 
-  let sentences = text.split(/[\.\!\?]/).filter(s => s.length > 25);
+  const sentences = text.split(".");
+  let html = "<h3>🧠 Flashcards</h3>";
 
-  let html = "<h3>Flashcards</h3>";
-
-  sentences.slice(0, 5).forEach((s, i) => {
-    html += `
-      <div style="border:1px solid #ccc; padding:10px; margin:10px;">
-        <b>Question ${i + 1}:</b><br>
-        What does this sentence explain?
-        <br><br>
-        <button onclick="this.nextElementSibling.style.display='block'">
-          Show Answer
-        </button>
-        <p style="display:none; margin-top:10px;">
-          <b>Answer:</b> ${s.trim()}
-        </p>
-      </div>
-    `;
+  sentences.forEach((s, index) => {
+    if (s.trim().length > 25) {
+      html += `
+        <div class="flashcard">
+          <b>Q${index + 1}:</b> What does this sentence explain?<br>
+          <button onclick="this.nextElementSibling.style.display='block'">
+            Show Answer
+          </button>
+          <div class="answer">${s.trim()}</div>
+        </div>
+      `;
+    }
   });
 
   document.getElementById("output").innerHTML = html;
 }
 
-/* ---------- TIMER ---------- */
-let timer;
-function startTimer() {
-  let study = document.getElementById("studyTime").value * 60;
-  if (!study) return;
+// ---------- THEME TOGGLE ----------
+function toggleTheme() {
+  document.body.classList.toggle("light");
 
-  clearInterval(timer);
-  let display = document.getElementById("timerDisplay");
-
-  timer = setInterval(() => {
-    let min = Math.floor(study / 60);
-    let sec = study % 60;
-    display.innerText = min + ":" + (sec < 10 ? "0" : "") + sec;
-    study--;
-
-    if (study < 0) {
-      clearInterval(timer);
-      alert("Time to take a break!");
-    }
-  }, 1000);
+  const btn = document.getElementById("themeToggle");
+  btn.innerText = document.body.classList.contains("light")
+    ? "🌞 Light Mode"
+    : "🌙 Dark Mode";
 }
