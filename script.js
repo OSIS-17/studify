@@ -1,46 +1,14 @@
-/* ---------- TEXT SOURCE ---------- */
 function getText() {
   return document.getElementById("inputText").value.trim();
 }
 
-/* ---------- PDF READER ---------- */
-let extractedText = "";
-
-document.getElementById("fileInput").addEventListener("change", function (e) {
-  let file = e.target.files[0];
-  if (!file || file.type !== "application/pdf") return;
-
-  let reader = new FileReader();
-  reader.onload = function () {
-    let typedarray = new Uint8Array(this.result);
-
-    pdfjsLib.getDocument(typedarray).promise.then(pdf => {
-      let pages = [];
-      for (let i = 1; i <= pdf.numPages; i++) {
-        pages.push(
-          pdf.getPage(i).then(page =>
-            page.getTextContent().then(tc =>
-              tc.items.map(item => item.str).join(" ")
-            )
-          )
-        );
-      }
-
-      Promise.all(pages).then(texts => {
-        extractedText = texts.join(" ");
-        document.getElementById("inputText").value = extractedText;
-      });
-    });
-  };
-
-  reader.readAsArrayBuffer(file);
-});
-
 /* ---------- SUMMARY ---------- */
 function makeSummary() {
   let text = getText();
+
   if (!text) {
-    document.getElementById("output").innerText = "Please paste or upload text first.";
+    document.getElementById("output").innerText =
+      "Please paste some text first.";
     return;
   }
 
@@ -54,12 +22,15 @@ function makeSummary() {
 /* ---------- NOTES ---------- */
 function makeNotes() {
   let text = getText();
+
   if (!text) {
-    document.getElementById("output").innerText = "Please paste or upload text first.";
+    document.getElementById("output").innerText =
+      "Please paste some text first.";
     return;
   }
 
   let sentences = text.split(/[\.\!\?]/).filter(s => s.length > 20);
+
   let notes = sentences.slice(0, 5)
     .map(s => "• " + s.trim())
     .join("\n");
@@ -71,8 +42,10 @@ function makeNotes() {
 /* ---------- FLASHCARDS ---------- */
 function makeFlashcards() {
   let text = getText();
+
   if (!text) {
-    document.getElementById("output").innerText = "Please paste or upload text first.";
+    document.getElementById("output").innerText =
+      "Please paste some text first.";
     return;
   }
 
